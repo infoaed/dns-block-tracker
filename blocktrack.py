@@ -12,12 +12,15 @@ import pycountry_convert as pc
 
 import os.path
 
-TIMEOUT = 3
+TIMEOUT = 5 # sanity check timeout
+LIFETIME = 0.5 # address poll lifetime
 
 #REGION = [["NA", "SA", "AS", "OC", "AF", "EU"]
 #REGION = [["EU"], ["EE", "LT", "LV", "PL", "FI", "SL", "HU", "RO", "MD", "RU"]]
+#REGION = [["EU"], ["EE", "LT", "LV", "PL", "FI"]]
+#REGION = [["EU"]]
 
-REGION = [["EU"]]
+REGION = [["EU"], ["EE", "LT", "LV"]]
 STRICT = False
 
 SANITY_TEST_DOMAIN = {'name': 'w3.org', 'ip': '128.30.52.100'}
@@ -200,11 +203,9 @@ for d in dns_list:
     n = dns.name.from_text(c)
     q = dns.message.make_query(n, dns.rdatatype.A)
     try:
-      r = dns.query.udp(q, ip, timeout = TIMEOUT)
+      r = dns.query.udp(q, ip, timeout = LIFETIME)
     except dns.exception.Timeout:
-      m = 'timeout'
-      dns_fail_poll[m] += 1
-      break
+      dns_fail_poll['timeout'] += 1
     except dns.query.BadResponse:
       m = 'badresponse'
       dns_fail_poll[m] += 1
@@ -253,6 +254,7 @@ for d in dns_list:
   # poll time error, exclude from stats
   
   if m:
+    print(r)
     print(m.upper())
     continue
       
