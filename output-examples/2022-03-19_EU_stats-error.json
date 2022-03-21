@@ -1,0 +1,18 @@
+{
+  "init": {
+    "timeout": 1851,
+    "badresponse": 1,
+    "refused": 0,
+    "nohost": 0,
+    "noresponse": 59,
+    "sanity": 2
+  },
+  "poll_time": {
+    "timeout": 9924,
+    "badresponse": 0,
+    "refused": 0,
+    "nohost": 0,
+    "noresponse": 0,
+    "sanity": 0
+  }
+}
